@@ -1,44 +1,58 @@
-import { auth } from '@clerk/nextjs';
+import { auth, currentUser } from '@clerk/nextjs';
+import { db } from '@/lib/db';
 
-export const getCurrentProfile = () => {
+const DEFAULT_PROFILE = {
+  fullName: '',
+  email: '',
+  avatar: '',
+  urls: [],
+  username: 'default_username',
+  userId: 'default_user_id',
+  id: 'default_id',
+};
+
+export const getCurrentProfile = async () => {
   const { userId } = auth();
-
   if (!userId) {
-    return null;
+    return DEFAULT_PROFILE;
   }
 
-  console.log('first', userId);
+  const profile = await db.profile.findUnique({
+    where: {
+      userId,
+    },
+  });
 
-  const profile = {
-    fullName: 'Huy Nguyen K',
-    email: 'huy@email.com',
-    avatar:
-      'https://cms-assets.tutsplus.com/uploads/users/810/profiles/19338/profileImage/profile-square-extra-small.png',
-    urls: [
-      { link: 'https://github.com/st-huynguyen', platform: 'github' },
-      { link: 'http://twitter.com/huykim', platform: 'twitter' },
-    ],
-    username: 'user_2dCkwwi0OnpQ3jeBqsaByLLRBJd',
-    userId: 'user_2dCkwwi0OnpQ3jeBqsaByLLRBJd',
-    id: '123',
-  };
+  if (profile) {
+    const urls =
+      (await db.link.findMany({
+        where: {
+          profileId: profile.id,
+        },
+      })) || [];
+    return { ...profile, urls };
+  }
 
-  return profile;
+  const user = await currentUser();
+  if (user) {
+    const fullName =
+      user?.firstName && user?.lastName && `${user.firstName} ${user.lastName}`;
+    const newProfile = await db.profile.create({
+      data: {
+        userId,
+        username: userId,
+        email: user.emailAddresses[0].emailAddress,
+        fullName: fullName || '',
+        avatar: user?.imageUrl || '',
+      },
+    });
+
+    return { ...newProfile, urls: [] };
+  }
+
+  return DEFAULT_PROFILE;
 };
 
-export const getProfileByUsername = () => {
-  return null;
-  return {
-    fullName: 'Huy Nguyen K',
-    email: 'huy@email.com',
-    avatar:
-      'https://cms-assets.tutsplus.com/uploads/users/810/profiles/19338/profileImage/profile-square-extra-small.png',
-    urls: [
-      { link: 'https://github.com/st-huynguyen', platform: 'github' },
-      { link: 'http://twitter.com/huykim', platform: 'twitter' },
-    ],
-    username: 'user_2dCkwwi0OnpQ3jeBqsaByLLRBJd',
-    userId: 'user_2dCkwwi0OnpQ3jeBqsaByLLRBJd',
-    id: '123',
-  };
-};
+export const getProfileByUsername = () => {};
+
+export const updateProfile = async () => {};

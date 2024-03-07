@@ -21,7 +21,7 @@ import { PLATFORMS } from '@/shared/constants';
 
 interface LinksFormProps {
   appendField: () => void;
-  removeField: (index: number) => void;
+  removeField: (index: number, id: string) => void;
   fields: any[];
   form: any;
 }
@@ -52,7 +52,7 @@ const LinksForm = (props: LinksFormProps) => {
                 variant="ghost"
                 type="button"
                 className="h-0 p-0 font-normal text-xs text-gray-500"
-                onClick={() => removeField(index)}
+                onClick={() => removeField(index, field.id)}
               >
                 Remove
               </Button>

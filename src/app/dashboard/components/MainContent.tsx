@@ -1,6 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useAuth } from '@clerk/clerk-react';
+import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,6 +28,7 @@ const formSchema = z.object({
   urls: z
     .array(
       z.object({
+        id: z.string(),
         link: z.string().url({ message: 'Please enter a valid URL.' }),
         platform: z.string(),
       })
@@ -42,6 +45,8 @@ interface MainContentProps {
 const MainContent = (props: MainContentProps) => {
   const { formValues } = props;
   const { toast } = useToast();
+  const { userId } = useAuth();
+  const [removedIds, setRemoveIds] = useState<any[]>([]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -57,27 +62,39 @@ const MainContent = (props: MainContentProps) => {
   const { fields, append, remove } = useFieldArray({
     name: 'urls',
     control: form.control,
+    keyName: '_id',
   });
 
   const appendField = () => {
-    append({ platform: PLATFORMS[0].value, link: '' });
+    append({ id: uuidv4(), platform: PLATFORMS[0].value, link: '' });
   };
 
-  const removeField = (index: number) => {
+  const removeField = (index: number, id: string) => {
+    setRemoveIds((prev) => [...prev, id]);
     remove(index);
   };
 
   const onSubmit = (data: FormValues) => {
-    console.log('data', data);
-    fetch('http://localhost:3000/api/profiles/hellow', {
+    const { urls, ...profile } = data;
+    const requestBody = {
+      profile,
+      urls,
+      removedIds,
+    };
+
+    fetch(`/api/profiles/${userId}`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify(requestBody),
     })
       .then((res) => res.json())
-      .then((d: any) => {
-        console.log('first', d);
+      .then(() => {
         toast({
           description: 'Your changes have been successfully saved!',
+        });
+      })
+      .catch(() => {
+        toast({
+          description: 'Something went wrong. Please try again!',
         });
       });
   };
@@ -103,7 +120,11 @@ const MainContent = (props: MainContentProps) => {
             fields={fields}
             form={form}
           />
-          <Button type="submit" className="self-end">
+          <Button
+            type="submit"
+            className="self-end"
+            disabled={form.formState.isSubmitting}
+          >
             Save
           </Button>
         </form>
