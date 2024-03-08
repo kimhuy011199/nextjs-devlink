@@ -6,7 +6,7 @@ const DEFAULT_PROFILE = {
   email: '',
   avatar: '',
   urls: [],
-  username: 'default_username',
+  username: '',
   userId: 'default_user_id',
   id: 'default_id',
 };
@@ -17,23 +17,17 @@ export const getCurrentProfile = async () => {
     return DEFAULT_PROFILE;
   }
 
-  const profile = await db.profile.findUnique({
+  const profile = (await db.profile.findUnique({
     where: {
       userId,
     },
-  });
+    include: {
+      urls: true,
+    },
+  })) as any;
 
   if (profile) {
-    const urls =
-      ((await db.link.findMany({
-        where: {
-          profileId: profile.id,
-        },
-        orderBy: {
-          order: 'asc',
-        },
-      })) as []) || [];
-    return { ...profile, urls };
+    return profile;
   }
 
   const user = await currentUser();
@@ -43,7 +37,7 @@ export const getCurrentProfile = async () => {
     const newProfile = await db.profile.create({
       data: {
         userId,
-        username: userId,
+        username: '',
         email: user.emailAddresses[0].emailAddress,
         fullName: fullName || '',
         avatar: user?.imageUrl || '',
@@ -56,6 +50,19 @@ export const getCurrentProfile = async () => {
   return DEFAULT_PROFILE;
 };
 
-export const getProfileByUsername = () => {};
+export const getProfileByUsername = async (username: string) => {
+  const profile = await db.profile.findFirst({
+    where: {
+      username: username,
+    },
+    include: {
+      urls: true,
+    },
+  });
 
-export const updateProfile = async () => {};
+  if (!profile) {
+    return null;
+  }
+
+  return profile;
+};
