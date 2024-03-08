@@ -31,6 +31,7 @@ const formSchema = z.object({
         id: z.string(),
         link: z.string().url({ message: 'Please enter a valid URL.' }),
         platform: z.string(),
+        order: z.number().optional(),
       })
     )
     .optional(),
@@ -59,7 +60,7 @@ const MainContent = (props: MainContentProps) => {
   const avatar = form.watch('avatar') || '';
   const links = form.watch('urls') || [];
 
-  const { fields, append, remove } = useFieldArray({
+  const { append, remove, replace } = useFieldArray({
     name: 'urls',
     control: form.control,
     keyName: '_id',
@@ -74,15 +75,16 @@ const MainContent = (props: MainContentProps) => {
     remove(index);
   };
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     const { urls, ...profile } = data;
+    const orderedUrls = urls?.map((item, index) => ({ ...item, order: index }));
     const requestBody = {
       profile,
-      urls,
+      urls: orderedUrls,
       removedIds,
     };
 
-    fetch(`/api/profiles/${userId}`, {
+    await fetch(`/api/profiles/${userId}`, {
       method: 'POST',
       body: JSON.stringify(requestBody),
     })
@@ -117,7 +119,8 @@ const MainContent = (props: MainContentProps) => {
           <LinksForm
             appendField={appendField}
             removeField={removeField}
-            fields={fields}
+            replace={replace}
+            fields={links}
             form={form}
           />
           <Button

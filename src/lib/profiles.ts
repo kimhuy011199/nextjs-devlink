@@ -25,11 +25,14 @@ export const getCurrentProfile = async () => {
 
   if (profile) {
     const urls =
-      (await db.link.findMany({
+      ((await db.link.findMany({
         where: {
           profileId: profile.id,
         },
-      })) || [];
+        orderBy: {
+          order: 'asc',
+        },
+      })) as []) || [];
     return { ...profile, urls };
   }
 

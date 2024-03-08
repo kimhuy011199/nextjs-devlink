@@ -30,6 +30,7 @@ model Link {
   id String @id @default(uuid())
   link String
   platform String
+  order Int?
 
   profileId String
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)

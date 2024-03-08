@@ -40,9 +40,7 @@ export async function POST(
         )
     );
 
-    Promise.all(updateUrlPromises).then((values) => {
-      console.log('values', values);
-    });
+    Promise.all(updateUrlPromises);
 
     await db.link.deleteMany({
       where: {
