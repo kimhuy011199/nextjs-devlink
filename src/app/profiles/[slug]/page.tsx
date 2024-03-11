@@ -1,31 +1,29 @@
 import Header from '@/components/Header';
 import ProfileSection from '@/components/ProfileSection';
+import { getProfileByUsername } from '@/lib/profiles';
 
-export default function ProfileDetail({
+export default async function ProfileDetail({
   params,
 }: {
   params: { slug: string };
 }) {
   console.log('params', params);
-  const profileData = {
-    fullName: 'Huy Nguyen K.',
-    email: 'kimhuy011199@gmail.com',
-    avatar:
-      'https://cms-assets.tutsplus.com/uploads/users/810/profiles/19338/profileImage/profile-square-extra-small.png',
-    urls: [
-      { link: 'https://github.com/st-huynguyen', platform: 'github' },
-      { link: 'http://twitter.com/huykim', platform: 'twitter' },
-    ],
-  };
-  const { fullName, email, avatar, urls } = profileData;
+  const profileData = await getProfileByUsername(params.slug);
+
+  if (!profileData) {
+    return <h2>Not found</h2>;
+  }
+
+  const { username, fullName, email, avatar, urls } = profileData;
+  console.log('first', profileData);
+
+  const profilePath = `/profiles/${profileData?.username}`;
 
   return (
     <>
-      <Header
-        profileUrl="http://localhost:3000/profiles/huykim"
-        qrCodeUrl="http://localhost:3000/profiles/huykim"
-      />
+      <Header />
       <ProfileSection
+        profilePath={profilePath}
         fullName={fullName}
         email={email}
         avatar={avatar}

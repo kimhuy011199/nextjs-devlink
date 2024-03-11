@@ -6,13 +6,12 @@ import AuthButton from './AuthButton';
 import Card from './Card';
 
 interface HeaderProps {
-  profileUrl?: string;
-  qrCodeUrl?: string;
+  profilePath?: string;
   isEditMode?: boolean;
 }
 
 const Header = (props: HeaderProps) => {
-  const { profileUrl = '', qrCodeUrl = '', isEditMode = false } = props;
+  const { profilePath = '', isEditMode = false } = props;
 
   return (
     <Card className="py-4 px-5 justify-between items-center h-16">
@@ -20,14 +19,12 @@ const Header = (props: HeaderProps) => {
         <Logo />
       </h1>
       <div className="flex gap-4">
-        {profileUrl ? <ShareLink profileUrl={profileUrl} /> : null}
-        {qrCodeUrl ? <ProfileQRCode qrCodeUrl={qrCodeUrl} /> : null}
         {isEditMode ? (
           <Link
-            className="px-5 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-gray-500 hover:bg-primary/10 hover:text-primary"
-            href={profileUrl}
+            className="px-5 py-2 flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-gray-500 hover:bg-primary/10 hover:text-primary"
+            href={profilePath}
           >
-            Preview
+            View Your Profile
           </Link>
         ) : null}
       </div>

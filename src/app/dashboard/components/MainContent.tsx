@@ -41,10 +41,11 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface MainContentProps {
   formValues: FormValues;
+  profilePath: string;
 }
 
 const MainContent = (props: MainContentProps) => {
-  const { formValues } = props;
+  const { formValues, profilePath } = props;
   const { toast } = useToast();
   const { userId } = useAuth();
   const [removedIds, setRemoveIds] = useState<any[]>([]);
@@ -75,6 +76,10 @@ const MainContent = (props: MainContentProps) => {
     remove(index);
   };
 
+  const setAvatarValue = (url: string) => {
+    form.setValue('avatar', url, { shouldDirty: true });
+  };
+
   const onSubmit = async (data: FormValues) => {
     const { urls, ...profile } = data;
     const orderedUrls = urls?.map((item, index) => ({ ...item, order: index }));
@@ -85,7 +90,7 @@ const MainContent = (props: MainContentProps) => {
     };
 
     await fetch(`/api/profiles/${userId}`, {
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify(requestBody),
     })
       .then((res) => res.json())
@@ -104,6 +109,7 @@ const MainContent = (props: MainContentProps) => {
   return (
     <div className="grid grid-cols-5 gap-4 items-start h-full">
       <ProfileSection
+        profilePath={profilePath}
         fullName={fullName}
         email={email}
         links={links}
@@ -115,7 +121,11 @@ const MainContent = (props: MainContentProps) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4 col-span-3"
         >
-          <ProfileForm form={form} avatar={avatar} />
+          <ProfileForm
+            form={form}
+            avatar={avatar}
+            setAvatarValue={setAvatarValue}
+          />
           <LinksForm
             appendField={appendField}
             removeField={removeField}
@@ -126,7 +136,7 @@ const MainContent = (props: MainContentProps) => {
           <Button
             type="submit"
             className="self-end"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || !form.formState.isDirty}
           >
             Save
           </Button>

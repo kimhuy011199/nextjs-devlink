@@ -2,7 +2,7 @@ import { db } from '@/lib/db';
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
-export async function POST(
+export async function PUT(
   req: Request,
   { params }: { params: { slug: string } }
 ) {
@@ -12,7 +12,7 @@ export async function POST(
 
     const { userId } = auth();
     if (!userId) {
-      return new NextResponse('Unauthorized', { status: 401 });
+      return new NextResponse(JSON.stringify('Unauthorized'), { status: 401 });
     }
 
     const updatedProfile = await db.profile.update({
@@ -53,6 +53,8 @@ export async function POST(
     return NextResponse.json(updatedProfile);
   } catch (error) {
     console.log(error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    return new NextResponse(JSON.stringify('Internal Server Error'), {
+      status: 500,
+    });
   }
 }

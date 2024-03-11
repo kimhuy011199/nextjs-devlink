@@ -1,27 +1,24 @@
 import FormSection from './FormSection';
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { UploadButton } from '@/lib/uploadthing';
 
 interface ProfileFormProps {
   form: any;
   avatar: string;
+  setAvatarValue: (url: string) => void;
 }
 
 const ProfileForm = (props: ProfileFormProps) => {
-  const { form, avatar } = props;
-
-  const handleUploadAvatar = () => {
-    console.log('handleUploadAvatar');
-  };
+  const { form, setAvatarValue } = props;
+  const { toast } = useToast();
 
   return (
     <FormSection
@@ -68,21 +65,28 @@ const ProfileForm = (props: ProfileFormProps) => {
             <FormItem className="flex items-center space-y-0 gap-4">
               <FormLabel className="w-36 min-w-36">Profile picture</FormLabel>
               <FormControl>
-                <Button
-                  variant="ghost"
-                  className="h-20 w-20"
-                  type="button"
-                  onClick={handleUploadAvatar}
-                >
-                  <Avatar className="h-20 w-20">
-                    <AvatarImage src={avatar} alt="@huykim" />
-                    <AvatarFallback className="bg-white"></AvatarFallback>
-                  </Avatar>
-                </Button>
+                <UploadButton
+                  appearance={{
+                    button:
+                      'ring-offset-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 text-sm border border-primary text-primary bg-transparent after:bg-primary hover:bg-primary/10 ut-uploading:cursor-not-allowed',
+                    container: 'flex-row gap-3',
+                    allowedContent: 'text-sm text-gray-500',
+                  }}
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    setAvatarValue(res[0].url);
+                    toast({
+                      description: 'Your image have been successfully saved!',
+                    });
+                  }}
+                  onUploadError={() => {
+                    toast({
+                      description: 'Something went wrong! Try another image.',
+                      variant: 'destructive',
+                    });
+                  }}
+                />
               </FormControl>
-              <FormDescription className="text-xs">
-                Use .PNG, .JPG format. File size below 100kb.
-              </FormDescription>
             </FormItem>
           )}
         />
