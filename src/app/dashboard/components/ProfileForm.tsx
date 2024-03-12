@@ -68,7 +68,7 @@ const ProfileForm = (props: ProfileFormProps) => {
                 <UploadButton
                   appearance={{
                     button:
-                      'ring-offset-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 text-sm border border-primary text-primary bg-transparent after:bg-primary hover:bg-primary/10 ut-uploading:cursor-not-allowed',
+                      'ring-offset-background font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 text-sm border border-primary text-primary bg-transparent after:bg-primary hover:bg-primary/10 ut-uploading:cursor-not-allowed',
                     container: 'flex-row gap-3',
                     allowedContent: 'text-sm text-gray-500',
                   }}

@@ -58,7 +58,7 @@ const UsernameForm = () => {
         return res.json();
       })
       .then(() => {
-        router.push('/dashboard');
+        router.refresh();
       })
       .catch((error) => {
         console.log('error', error);
