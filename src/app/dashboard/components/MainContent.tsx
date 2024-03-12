@@ -17,7 +17,7 @@ import { useToast } from '@/components/ui/use-toast';
 const formSchema = z.object({
   fullName: z
     .string()
-    .min(2, {
+    .min(4, {
       message: 'Name must be at least 2 characters.',
     })
     .max(30, {
@@ -102,6 +102,7 @@ const MainContent = (props: MainContentProps) => {
       .catch(() => {
         toast({
           description: 'Something went wrong. Please try again!',
+          variant: 'destructive',
         });
       });
   };

@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import { notFound } from 'next/navigation';
 import ProfileSection from '@/components/ProfileSection';
 import { getProfileByUsername } from '@/lib/profiles';
 
@@ -11,7 +11,7 @@ export default async function ProfileDetail({
   const profileData = await getProfileByUsername(params.slug);
 
   if (!profileData) {
-    return <h2>Not found</h2>;
+    notFound();
   }
 
   const { username, fullName, email, avatar, urls } = profileData;
@@ -21,7 +21,6 @@ export default async function ProfileDetail({
 
   return (
     <>
-      <Header />
       <ProfileSection
         profilePath={profilePath}
         fullName={fullName}

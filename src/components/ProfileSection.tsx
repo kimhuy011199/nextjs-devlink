@@ -39,7 +39,7 @@ const ProfileSection = (props: ProfileSectionProps) => {
       <div className="px-10 pt-4 pb-12 w-full flex flex-col items-center gap-8">
         <div className="flex flex-col items-center gap-2 leading-5">
           <Avatar className="h-20 w-20">
-            <AvatarImage src={avatar} alt="@huykim" />
+            <AvatarImage src={avatar} alt="@devlink" />
             <AvatarFallback></AvatarFallback>
           </Avatar>
           {fullName ? (

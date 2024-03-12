@@ -34,7 +34,7 @@ const ProfileForm = (props: ProfileFormProps) => {
               <FormLabel className="w-40 min-w-40 mt-3">Full name</FormLabel>
               <div className="flex flex-col w-full">
                 <FormControl>
-                  <Input placeholder="Huy Nguyen K" {...field} />
+                  <Input placeholder="Your full name" {...field} />
                 </FormControl>
                 <FormMessage />
               </div>

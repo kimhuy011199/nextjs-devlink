@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
 import { auth } from '@clerk/nextjs';
+import { clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 export async function PUT(
@@ -15,9 +16,13 @@ export async function PUT(
       return new NextResponse(JSON.stringify('Unauthorized'), { status: 401 });
     }
 
+    if (userId !== params.slug) {
+      return new NextResponse(JSON.stringify('Forbidden'), { status: 403 });
+    }
+
     const updatedProfile = await db.profile.update({
       where: {
-        userId: params.slug,
+        userId,
       },
       data: {
         fullName,
@@ -51,6 +56,41 @@ export async function PUT(
     });
 
     return NextResponse.json(updatedProfile);
+  } catch (error) {
+    console.log(error);
+    return new NextResponse(JSON.stringify('Internal Server Error'), {
+      status: 500,
+    });
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { slug: string } }
+) {
+  try {
+    const { userId } = auth();
+    if (!userId) {
+      return new NextResponse(JSON.stringify('Unauthorized'), { status: 401 });
+    }
+
+    if (userId !== params.slug) {
+      return new NextResponse(JSON.stringify('Forbidden'), { status: 403 });
+    }
+
+    // Delete profile in Postgres
+    await db.profile.delete({
+      where: {
+        userId,
+      },
+    });
+
+    // Delete Clerk account
+    await clerkClient.users.deleteUser(userId);
+
+    return NextResponse.json({
+      message: `Deleted user ${userId} successfully`,
+    });
   } catch (error) {
     console.log(error);
     return new NextResponse(JSON.stringify('Internal Server Error'), {

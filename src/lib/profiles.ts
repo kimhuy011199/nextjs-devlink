@@ -27,6 +27,7 @@ export const getCurrentProfile = async () => {
   })) as any;
 
   if (profile) {
+    console.log('profile', { profile });
     return profile;
   }
 
@@ -43,6 +44,8 @@ export const getCurrentProfile = async () => {
         avatar: user?.imageUrl || '',
       },
     });
+
+    console.log('...newProfile, urls: []', { ...newProfile, urls: [] });
 
     return { ...newProfile, urls: [] };
   }
