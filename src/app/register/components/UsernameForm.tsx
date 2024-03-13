@@ -1,11 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SignOutButton } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -33,7 +31,6 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const UsernameForm = () => {
-  const router = useRouter();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,8 +55,7 @@ const UsernameForm = () => {
         return res.json();
       })
       .then(() => {
-        router.refresh();
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((error) => {
         console.log('error', error);
@@ -101,20 +97,13 @@ const UsernameForm = () => {
               </FormItem>
             )}
           />
-          <div className="flex items-center justify-between">
-            <Button
-              type="submit"
-              className="self-end"
-              disabled={form.formState.isSubmitting}
-            >
-              Create Profile
-            </Button>
-            <SignOutButton>
-              <Button type="button" variant="outline">
-                Sign Out
-              </Button>
-            </SignOutButton>
-          </div>
+          <Button
+            type="submit"
+            className="self-end"
+            disabled={form.formState.isSubmitting}
+          >
+            Create Profile
+          </Button>
         </form>
       </Form>
     </div>

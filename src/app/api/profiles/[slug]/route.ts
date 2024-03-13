@@ -20,6 +20,7 @@ export async function PUT(
       return new NextResponse(JSON.stringify('Forbidden'), { status: 403 });
     }
 
+    // Update profile information
     const updatedProfile = await db.profile.update({
       where: {
         userId,
@@ -31,6 +32,7 @@ export async function PUT(
       },
     });
 
+    // Update profile links
     const updateUrlPromises = urls.map(
       (item: any) =>
         new Promise((resolve, reject) =>
@@ -44,9 +46,9 @@ export async function PUT(
             .catch((error) => reject(error))
         )
     );
-
     Promise.all(updateUrlPromises);
 
+    // Remove links
     await db.link.deleteMany({
       where: {
         id: {

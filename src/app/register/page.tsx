@@ -5,13 +5,13 @@ import UsernameForm from './components/UsernameForm';
 export default async function RegisterUsername() {
   const profileData = await getCurrentProfile();
 
+  if (!profileData) {
+    redirect('/sign-up');
+  }
+
   if (profileData?.username) {
     redirect('/dashboard');
   }
 
-  return (
-    <>
-      <UsernameForm />
-    </>
-  );
+  return <UsernameForm />;
 }

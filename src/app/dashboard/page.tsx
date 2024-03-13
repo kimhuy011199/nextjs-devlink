@@ -1,24 +1,51 @@
-import { redirect } from 'next/navigation';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import MainContent from '@/app/dashboard/components/MainContent';
-import { getCurrentProfile } from '@/lib/profiles';
+import { useToast } from '@/components/ui/use-toast';
 
-export const revalidate = 0;
-// export const dynamic = 'force-dynamic';
+export default function Dashboard() {
+  const router = useRouter();
+  const [profileData, setProfileData] = useState<any>(null);
+  const profilePath = `/profiles/${profileData?.username}`;
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
-export default async function Dashboard() {
-  const profileData = await getCurrentProfile();
-  const profilePath = profileData ? `/profiles/${profileData?.username}` : '';
-  console.log('profilePath', profilePath);
+  useEffect(() => {
+    fetch('/api/profiles')
+      .then((res) => {
+        if (!res.ok) {
+          setIsLoading(false);
+          throw new Error();
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (!data?.username) {
+          return router.push('/register');
+        }
+        setProfileData(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast({
+          description: 'Something went wrong. Please try again!',
+          variant: 'destructive',
+        });
+      });
+  }, [router, toast]);
 
-  if (!profileData?.username) {
-    redirect('/register');
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
-
-  console.log('profileData?.username', profileData?.username);
 
   return (
     <>
-      <MainContent formValues={profileData} profilePath={profilePath} />
+      {profileData ? (
+        <MainContent formValues={profileData} profilePath={profilePath} />
+      ) : null}
     </>
   );
 }

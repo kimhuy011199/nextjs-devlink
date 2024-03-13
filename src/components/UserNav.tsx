@@ -17,10 +17,11 @@ import {
 } from './ui/dropdown-menu';
 import { Dialog, DialogTrigger } from './ui/dialog';
 import DeactiveAccount from './DeactiveAccount';
+import { useRouter } from 'next/navigation';
 
 const UserNav = () => {
   const { user } = useUser();
-  console.log('user', user);
+  const router = useRouter();
 
   return (
     <Dialog>
@@ -29,7 +30,7 @@ const UserNav = () => {
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
               <AvatarImage src={user?.imageUrl} alt="@devlink" />
-              <AvatarFallback>DL</AvatarFallback>
+              <AvatarFallback></AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
@@ -46,16 +47,18 @@ const UserNav = () => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <Link
-                className="w-full text-left"
-                href={`/profiles/${user?.username}`}
-                target="_blank"
-              >
-                View Profile
-              </Link>
-              {/* <DropdownMenuShortcut>⌘P</DropdownMenuShortcut> */}
-            </DropdownMenuItem>
+            {user?.username ? (
+              <DropdownMenuItem>
+                <Link
+                  className="w-full text-left"
+                  href={`/profiles/${user?.username}`}
+                  target="_blank"
+                >
+                  View Profile
+                </Link>
+                {/* <DropdownMenuShortcut>⌘P</DropdownMenuShortcut> */}
+              </DropdownMenuItem>
+            ) : null}
             <DropdownMenuItem>
               <DialogTrigger asChild>
                 <button className="w-full text-left">Deactive Account</button>
@@ -65,7 +68,11 @@ const UserNav = () => {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <SignOutButton>
+            <SignOutButton
+              signOutCallback={() => {
+                router.replace('/');
+              }}
+            >
               <button className="w-full text-left">Log Out</button>
             </SignOutButton>
             {/* <DropdownMenuShortcut>⌘Q</DropdownMenuShortcut> */}

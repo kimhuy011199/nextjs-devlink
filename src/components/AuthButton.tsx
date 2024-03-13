@@ -1,10 +1,9 @@
 'use client';
 
 import React from 'react';
-import { SignOutButton, useUser } from '@clerk/clerk-react';
-import { LogIn, LogOut } from 'lucide-react';
+import { useUser } from '@clerk/clerk-react';
+import { LogIn } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from './ui/button';
 import UserNav from './UserNav';
 
 const AuthButton = () => {
@@ -17,15 +16,6 @@ const AuthButton = () => {
   return (
     <>
       {isSignedIn ? (
-        // <SignOutButton>
-        //   <Button
-        //     variant="link"
-        //     className="flex items-center gap-2 text-gray-400"
-        //   >
-        //     <span>Sign Out</span>
-        //     <LogOut size={16} strokeWidth={2.5} />
-        //   </Button>
-        // </SignOutButton>
         <UserNav />
       ) : (
         <Link

@@ -7,17 +7,13 @@ export default async function ProfileDetail({
 }: {
   params: { slug: string };
 }) {
-  console.log('params', params);
   const profileData = await getProfileByUsername(params.slug);
-
   if (!profileData) {
     notFound();
   }
 
   const { username, fullName, email, avatar, urls } = profileData;
-  console.log('first', profileData);
-
-  const profilePath = `/profiles/${profileData?.username}`;
+  const profilePath = `/profiles/${username}`;
 
   return (
     <>
