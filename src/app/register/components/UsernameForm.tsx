@@ -59,6 +59,7 @@ const UsernameForm = () => {
       })
       .then(() => {
         router.refresh();
+        // window.location.reload();
       })
       .catch((error) => {
         console.log('error', error);

@@ -3,7 +3,7 @@
 import Logo from './Logo';
 import AuthButton from './AuthButton';
 import Card from './Card';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useUser } from '@clerk/clerk-react';
 
 const AUTH_PATH = [
@@ -15,6 +15,7 @@ const AUTH_PATH = [
 ];
 
 const Header = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const hasAuthButton = !AUTH_PATH.includes(pathname);
 
@@ -23,6 +24,7 @@ const Header = () => {
       <h1>
         <Logo />
       </h1>
+      <button onClick={() => router.push('/')}>Home</button>
       {hasAuthButton ? <AuthButton /> : null}
     </Card>
   );
