@@ -12,7 +12,11 @@ export const getCurrentProfile = async () => {
       userId,
     },
     include: {
-      urls: true,
+      urls: {
+        orderBy: {
+          order: 'asc',
+        },
+      },
     },
   })) as any;
 
@@ -25,7 +29,11 @@ export const getProfileByUsername = async (username: string) => {
       username: username,
     },
     include: {
-      urls: true,
+      urls: {
+        orderBy: {
+          order: 'asc',
+        },
+      },
     },
   });
 

@@ -52,9 +52,13 @@ const DeactiveAccount = () => {
       </DialogDescription>
       <DialogFooter>
         <DialogClose asChild>
-          <Button variant="outline">Cancel</Button>
+          <Button variant="ghost">Cancel</Button>
         </DialogClose>
-        <Button disabled={isLoading} onClick={handleDeactiveAccount}>
+        <Button
+          disabled={isLoading}
+          variant="destructive"
+          onClick={handleDeactiveAccount}
+        >
           Deactive
         </Button>
       </DialogFooter>
