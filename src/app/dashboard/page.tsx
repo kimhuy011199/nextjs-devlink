@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import MainContent from '@/app/dashboard/components/MainContent';
 import { useToast } from '@/components/ui/use-toast';
+import PageSkeleton from './components/PageSkeleton';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function Dashboard() {
   }, [router, toast]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <PageSkeleton />;
   }
 
   return (
