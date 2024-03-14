@@ -18,8 +18,8 @@ import { useToast } from '@/components/ui/use-toast';
 const formSchema = z.object({
   username: z
     .string()
-    .min(2, {
-      message: 'Username must be at least 4 characters.',
+    .min(5, {
+      message: 'Username must be at least 5 characters.',
     })
     .max(20, {
       message: 'Username must not be longer than 20 characters.',
@@ -40,6 +40,8 @@ const UsernameForm = () => {
     },
     mode: 'onSubmit',
   });
+
+  const { isSubmitting } = form.formState;
 
   const onSubmit = async (data: FormValues) => {
     const username = data.username.trim().toLowerCase();
@@ -101,6 +103,7 @@ const UsernameForm = () => {
                     <Input
                       className="pl-28"
                       placeholder="yourname"
+                      disabled={isSubmitting}
                       {...field}
                     />
                   </div>
@@ -109,11 +112,7 @@ const UsernameForm = () => {
               </FormItem>
             )}
           />
-          <Button
-            type="submit"
-            className="self-end"
-            disabled={form.formState.isSubmitting}
-          >
+          <Button type="submit" className="self-end" disabled={isSubmitting}>
             Create Profile
           </Button>
         </form>
