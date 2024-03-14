@@ -26,7 +26,11 @@ const DeactiveAccount = () => {
     await fetch(`/api/profiles/${user?.id}`, {
       method: 'DELETE',
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error();
+        }
+      })
       .then(() => {
         toast({
           description: 'Your account have been successfully deactivated!',
