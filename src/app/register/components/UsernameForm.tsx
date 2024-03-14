@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
   username: z
@@ -24,13 +25,14 @@ const formSchema = z.object({
       message: 'Username must not be longer than 20 characters.',
     })
     .regex(/^[a-zA-Z0-9]+$/, {
-      message: 'Only letters (a-Z) and numbers (0-9) are allowed.',
+      message: 'Only letters (a-z) and numbers (0-9) are allowed.',
     }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 const UsernameForm = () => {
+  const { toast } = useToast();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,19 +48,29 @@ const UsernameForm = () => {
       body: JSON.stringify({ username }),
     })
       .then((res) => {
-        if (!res.ok && res.status === 400) {
-          form.setError('username', {
-            type: 'custom',
-            message: 'This username is already taken. Try another one!',
-          });
+        if (!res.ok) {
+          if (res.status === 400) {
+            form.setError('username', {
+              type: 'custom',
+              message: 'This username is already taken. Try another one!',
+            });
+          } else {
+            throw new Error();
+          }
+        } else {
+          return res.json();
         }
-        return res.json();
       })
-      .then(() => {
-        window.location.reload();
+      .then((data) => {
+        if (data) {
+          window.location.reload();
+        }
       })
-      .catch((error) => {
-        console.log('error', error);
+      .catch(() => {
+        toast({
+          description: 'Something went wrong. Please try again!',
+          variant: 'destructive',
+        });
       });
   };
 
