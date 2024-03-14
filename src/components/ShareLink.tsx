@@ -52,7 +52,7 @@ const ShareLink = (props: ShareLinkProps) => {
           <Share size={16} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent hasCloseButton={true}>
         <DialogHeader>
           <DialogTitle>Share Link</DialogTitle>
         </DialogHeader>

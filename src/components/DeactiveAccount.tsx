@@ -43,7 +43,13 @@ const DeactiveAccount = () => {
   };
 
   return (
-    <DialogContent>
+    <DialogContent
+      onInteractOutside={(e) => {
+        if (isLoading) {
+          e.preventDefault();
+        }
+      }}
+    >
       <DialogHeader>
         <DialogTitle>Deactive Your Account</DialogTitle>
       </DialogHeader>
@@ -52,7 +58,9 @@ const DeactiveAccount = () => {
       </DialogDescription>
       <DialogFooter>
         <DialogClose asChild>
-          <Button variant="ghost">Cancel</Button>
+          <Button disabled={isLoading} variant="ghost">
+            Cancel
+          </Button>
         </DialogClose>
         <Button
           disabled={isLoading}
