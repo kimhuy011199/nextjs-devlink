@@ -30,6 +30,7 @@ export async function GET() {
           username: '',
           email: user.emailAddresses[0].emailAddress,
           fullName: fullName || '',
+          bio: '',
           avatar: user?.imageUrl || '',
         },
       });

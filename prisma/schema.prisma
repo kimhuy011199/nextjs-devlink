@@ -19,6 +19,7 @@ model Profile {
   username String @unique
   email String
   fullName String
+  bio String
   avatar String
   urls Link[]
 

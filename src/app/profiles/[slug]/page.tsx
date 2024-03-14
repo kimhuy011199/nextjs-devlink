@@ -12,7 +12,7 @@ export default async function ProfileDetail({
     notFound();
   }
 
-  const { username, fullName, email, avatar, urls } = profileData;
+  const { username, bio, fullName, email, avatar, urls } = profileData;
   const profilePath = `/profiles/${username}`;
 
   return (
@@ -20,6 +20,7 @@ export default async function ProfileDetail({
       <ProfileSection
         profilePath={profilePath}
         fullName={fullName}
+        bio={bio}
         email={email}
         avatar={avatar}
         links={urls}

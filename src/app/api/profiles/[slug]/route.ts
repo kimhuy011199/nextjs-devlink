@@ -9,7 +9,7 @@ export async function PUT(
 ) {
   try {
     const { profile, urls, removedIds } = await req.json();
-    const { fullName, email, avatar } = profile;
+    const { fullName, email, bio, avatar } = profile;
 
     const { userId } = auth();
     if (!userId) {
@@ -28,6 +28,7 @@ export async function PUT(
       data: {
         fullName,
         email,
+        bio,
         avatar,
       },
     });

@@ -18,10 +18,18 @@ const formSchema = z.object({
   fullName: z
     .string()
     .min(4, {
-      message: 'Name must be at least 2 characters.',
+      message: 'Name must be at least 4 characters.',
     })
     .max(30, {
       message: 'Name must not be longer than 30 characters.',
+    }),
+  bio: z
+    .string()
+    .min(10, {
+      message: 'Bio must be at least 10 characters.',
+    })
+    .max(120, {
+      message: 'Bio must not be longer than 120 characters.',
     }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
   avatar: z.string().optional(),
@@ -57,6 +65,7 @@ const MainContent = (props: MainContentProps) => {
   });
 
   const fullName = form.watch('fullName') || '';
+  const bio = form.watch('bio') || '';
   const email = form.watch('email') || '';
   const avatar = form.watch('avatar') || '';
   const links = form.watch('urls') || [];
@@ -112,6 +121,7 @@ const MainContent = (props: MainContentProps) => {
       <ProfileSection
         profilePath={profilePath}
         fullName={fullName}
+        bio={bio}
         email={email}
         links={links}
         avatar={avatar}
