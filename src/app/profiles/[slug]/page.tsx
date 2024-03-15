@@ -2,6 +2,14 @@ import { notFound } from 'next/navigation';
 import ProfileSection from '@/components/ProfileSection';
 import { getProfileByUsername } from '@/lib/profiles';
 
+export async function generateMetadata({ params }: any) {
+  const profileData = await getProfileByUsername(params.slug);
+
+  return {
+    title: `@${profileData?.username || 'Not Found'} - Dev Link`,
+  };
+}
+
 export default async function ProfileDetail({
   params,
 }: {
@@ -25,7 +33,7 @@ export default async function ProfileDetail({
         email={email}
         avatar={avatar}
         links={urls}
-        className="sm:w-96 mx-auto mt-4"
+        className="sm:w-96 mx-auto mt-4 w-full"
       />
     </>
   );
