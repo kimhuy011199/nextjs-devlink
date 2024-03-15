@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { currentUser } from '@clerk/nextjs';
+import Image from 'next/image';
+import homeProfile from '../assets/devlink.png';
 
 export default async function Home() {
   const user = await currentUser();
@@ -28,7 +30,9 @@ export default async function Home() {
         </Link>
       </div>
       <div className="flex items-center justify-center">
-        <div className="bg-white rounded-xl ring-1 ring-gray-300 h-[460px] w-80 shadow-xl"></div>
+        <div className="bg-white rounded-xl ring-1 ring-gray-300 w-80 shadow-xl px-2 py-4">
+          <Image src={homeProfile} width={778} height={1002} alt="DevLink" />
+        </div>
       </div>
     </div>
   );
