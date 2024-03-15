@@ -31,7 +31,7 @@ interface LinksFormProps {
   isSubmitting: boolean;
 }
 
-const LIMITED_LINKS = 7;
+const LIMITED_LINKS = 8;
 
 const LinksForm = (props: LinksFormProps) => {
   const { appendField, removeField, replace, fields, form, isSubmitting } =

@@ -5,6 +5,7 @@ import ProfileLinkItem from './ProfileLinkItem';
 import { Badge } from '@/components/ui/badge';
 import Card from './Card';
 import ShareLink from './ShareLink';
+import { twMerge } from 'tailwind-merge';
 
 interface ProfileSectionProps {
   profilePath: string;
@@ -17,6 +18,7 @@ interface ProfileSectionProps {
     platform: string;
   }[];
   previewMode?: boolean;
+  className?: string;
 }
 
 const ProfileSection = (props: ProfileSectionProps) => {
@@ -28,10 +30,16 @@ const ProfileSection = (props: ProfileSectionProps) => {
     links,
     avatar = '',
     previewMode = false,
+    className = '',
   } = props;
 
   return (
-    <Card className="overflow-hidden col-span-2 flex-col items-center sticky top-4 ring-1 ring-gray-300 shadow-lg">
+    <Card
+      className={twMerge(
+        'overflow-hidden col-span-2 flex-col items-center sticky top-4 ring-1 ring-gray-300 shadow-lg',
+        className
+      )}
+    >
       <div className="flex items-center justify-between w-full px-2 pt-2">
         <div>
           {previewMode ? (

@@ -4,6 +4,8 @@ import {
   Instagram,
   Twitter,
   YoutubeIcon,
+  Globe,
+  Facebook,
 } from 'lucide-react';
 
 export const PLATFORMS = [
@@ -45,6 +47,22 @@ export const PLATFORMS = [
     label: 'Youtube',
     icon: YoutubeIcon,
     color: 'bg-[#C4302B]',
+    link: '',
+  },
+  {
+    id: 6,
+    value: 'facebook',
+    label: 'Facebook',
+    icon: Facebook,
+    color: 'bg-[#1877F2]',
+    link: '',
+  },
+  {
+    id: 7,
+    value: 'website',
+    label: 'Website',
+    icon: Globe,
+    color: 'bg-[#15803D]',
     link: '',
   },
 ];

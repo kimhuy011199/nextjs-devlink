@@ -24,6 +24,7 @@ export default async function ProfileDetail({
         email={email}
         avatar={avatar}
         links={urls}
+        className="w-96 mx-auto"
       />
     </>
   );
