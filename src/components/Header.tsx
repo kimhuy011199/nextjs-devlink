@@ -17,7 +17,7 @@ const Header = () => {
   const hasAuthButton = !AUTH_PATH.includes(pathname);
 
   return (
-    <Card className="py-4 px-5 justify-between items-center h-16">
+    <Card className="py-4 px-5 justify-between items-center h-16 z-40">
       <h1>
         <Logo />
       </h1>

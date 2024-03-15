@@ -12,7 +12,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-20 mt-12 px-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mt-6 md:mt-12 md:px-8">
       <div className="flex flex-col gap-4 justify-center items-start">
         <h2 className="text-3xl font-bold max-w-96">
           Build Your Online Identity Hassle-Free!

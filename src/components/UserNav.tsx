@@ -13,15 +13,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuShortcut,
 } from './ui/dropdown-menu';
 import { Dialog, DialogTrigger } from './ui/dialog';
 import DeactiveAccount from './DeactiveAccount';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const UserNav = () => {
   const { user } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Dialog>
@@ -47,6 +47,16 @@ const UserNav = () => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
+            {pathname !== '/dashboard' ? (
+              <DropdownMenuItem>
+                <button
+                  onClick={() => router.push('/dashboard')}
+                  className="w-full text-left"
+                >
+                  Dashboard
+                </button>
+              </DropdownMenuItem>
+            ) : null}
             {user?.username ? (
               <DropdownMenuItem>
                 <Link
@@ -56,14 +66,12 @@ const UserNav = () => {
                 >
                   View Profile
                 </Link>
-                {/* <DropdownMenuShortcut>⌘P</DropdownMenuShortcut> */}
               </DropdownMenuItem>
             ) : null}
             <DropdownMenuItem>
               <DialogTrigger asChild>
                 <button className="w-full text-left">Deactive Account</button>
               </DialogTrigger>
-              {/* <DropdownMenuShortcut>⌘D</DropdownMenuShortcut> */}
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
@@ -75,7 +83,6 @@ const UserNav = () => {
             >
               <button className="w-full text-left">Log Out</button>
             </SignOutButton>
-            {/* <DropdownMenuShortcut>⌘Q</DropdownMenuShortcut> */}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

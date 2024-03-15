@@ -17,6 +17,7 @@ export default async function ProfileDetail({
 
   return (
     <>
+      <div className="w-full h-80 bg-primary absolute left-0 top-0"></div>
       <ProfileSection
         profilePath={profilePath}
         fullName={fullName}
@@ -24,7 +25,7 @@ export default async function ProfileDetail({
         email={email}
         avatar={avatar}
         links={urls}
-        className="w-96 mx-auto"
+        className="sm:w-96 mx-auto mt-4"
       />
     </>
   );

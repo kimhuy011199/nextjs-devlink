@@ -79,7 +79,7 @@ const UsernameForm = () => {
   return (
     <div className="flex flex-col gap-3 w-full max-w-lg mx-auto pt-10">
       <h2 className="text-2xl font-semibold leading-none tracking-tight">
-        Create your profile
+        Create Your Profile
       </h2>
       <p className="text-sm text-muted-foreground">
         Provide a unique username that will be used to identify you on the

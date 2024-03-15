@@ -36,7 +36,7 @@ const ProfileSection = (props: ProfileSectionProps) => {
   return (
     <Card
       className={twMerge(
-        'overflow-hidden col-span-2 flex-col items-center sticky top-4 ring-1 ring-gray-300 shadow-lg',
+        'z-[45] overflow-hidden col-span-2 flex-col items-center lg:sticky top-4 ring-1 ring-gray-300 shadow-lg',
         className
       )}
     >

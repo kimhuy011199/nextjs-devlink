@@ -125,7 +125,7 @@ const MainContent = (props: MainContentProps) => {
   };
 
   return (
-    <div className="grid grid-cols-5 gap-4 items-start h-full">
+    <div className="flex flex-col lg:grid lg:grid-cols-5 gap-4 items-stretch lg:items-start h-full">
       <ProfileSection
         profilePath={profilePath}
         fullName={fullName}

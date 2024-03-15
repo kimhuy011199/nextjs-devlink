@@ -61,3 +61,7 @@
 .submitting label {
   @apply cursor-not-allowed opacity-50;
 }
+
+.cl-card {
+  @apply max-w-[80%] mx-auto;
+}

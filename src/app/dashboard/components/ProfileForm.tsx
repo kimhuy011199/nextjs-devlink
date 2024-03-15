@@ -32,8 +32,10 @@ const ProfileForm = (props: ProfileFormProps) => {
           control={form.control}
           name="fullName"
           render={({ field }) => (
-            <FormItem className="flex space-y-0">
-              <FormLabel className="w-40 min-w-40 mt-3">Full name</FormLabel>
+            <FormItem className="flex flex-col md:flex-row md:space-y-0">
+              <FormLabel className="w-24 min-w-24 md:w-40 md:min-w-40 mt-3">
+                Full name
+              </FormLabel>
               <div className="flex flex-col w-full">
                 <FormControl>
                   <Input
@@ -51,8 +53,10 @@ const ProfileForm = (props: ProfileFormProps) => {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem className="flex space-y-0">
-              <FormLabel className="w-40 min-w-40 mt-3">Email</FormLabel>
+            <FormItem className="flex flex-col md:flex-row md:space-y-0">
+              <FormLabel className="w-24 min-w-24 md:w-40 md:min-w-40 mt-3">
+                Email
+              </FormLabel>
               <div className="flex flex-col w-full">
                 <FormControl>
                   <Input
@@ -70,8 +74,10 @@ const ProfileForm = (props: ProfileFormProps) => {
           control={form.control}
           name="bio"
           render={({ field }) => (
-            <FormItem className="flex space-y-0">
-              <FormLabel className="w-40 min-w-40 mt-3">Biography</FormLabel>
+            <FormItem className="flex flex-col md:flex-row md:space-y-0">
+              <FormLabel className="w-24 min-w-24 md:w-40 md:min-w-40 mt-3">
+                Biography
+              </FormLabel>
               <div className="flex flex-col w-full">
                 <FormControl>
                   <Textarea
@@ -92,7 +98,7 @@ const ProfileForm = (props: ProfileFormProps) => {
           control={form.control}
           name="avatar"
           render={({ field }) => (
-            <FormItem className="flex items-center space-y-0 gap-4">
+            <FormItem className="flex flex-col md:flex-row md:space-y-0 md:items-center gap-2 md:gap-4">
               <FormLabel className="w-36 min-w-36">Profile picture</FormLabel>
               <FormControl>
                 <UploadButton
@@ -100,7 +106,7 @@ const ProfileForm = (props: ProfileFormProps) => {
                   appearance={{
                     button:
                       'ring-offset-background font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 text-sm border border-primary text-primary bg-transparent after:bg-primary hover:bg-primary/10 ut-uploading:cursor-not-allowed',
-                    container: 'flex-row gap-3',
+                    container: 'flex-row gap-3 md:justify-center justify-start',
                     allowedContent: 'text-sm text-gray-500',
                   }}
                   endpoint="imageUploader"
