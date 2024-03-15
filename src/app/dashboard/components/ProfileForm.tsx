@@ -15,10 +15,11 @@ interface ProfileFormProps {
   form: any;
   avatar: string;
   setAvatarValue: (url: string) => void;
+  isSubmitting: boolean;
 }
 
 const ProfileForm = (props: ProfileFormProps) => {
-  const { form, setAvatarValue } = props;
+  const { form, setAvatarValue, isSubmitting } = props;
   const { toast } = useToast();
 
   return (
@@ -35,7 +36,11 @@ const ProfileForm = (props: ProfileFormProps) => {
               <FormLabel className="w-40 min-w-40 mt-3">Full name</FormLabel>
               <div className="flex flex-col w-full">
                 <FormControl>
-                  <Input placeholder="Your full name" {...field} />
+                  <Input
+                    placeholder="Your full name"
+                    disabled={isSubmitting}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </div>
@@ -50,7 +55,11 @@ const ProfileForm = (props: ProfileFormProps) => {
               <FormLabel className="w-40 min-w-40 mt-3">Email</FormLabel>
               <div className="flex flex-col w-full">
                 <FormControl>
-                  <Input placeholder="Your email address" {...field} />
+                  <Input
+                    placeholder="Your email address"
+                    disabled={isSubmitting}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </div>
@@ -68,6 +77,7 @@ const ProfileForm = (props: ProfileFormProps) => {
                   <Textarea
                     placeholder="Tell us a little bit about yourself"
                     className="resize-none"
+                    disabled={isSubmitting}
                     {...field}
                   />
                 </FormControl>
@@ -86,6 +96,7 @@ const ProfileForm = (props: ProfileFormProps) => {
               <FormLabel className="w-36 min-w-36">Profile picture</FormLabel>
               <FormControl>
                 <UploadButton
+                  className={isSubmitting ? 'submitting' : ''}
                   appearance={{
                     button:
                       'ring-offset-background font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 text-sm border border-primary text-primary bg-transparent after:bg-primary hover:bg-primary/10 ut-uploading:cursor-not-allowed',

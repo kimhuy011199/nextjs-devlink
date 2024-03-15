@@ -7,9 +7,9 @@ import { z } from 'zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PLATFORMS } from '@/shared/constants';
-import { Button } from '../../../components/ui/button';
-import { Form } from '../../../components/ui/form';
-import ProfileSection from '../../../components/ProfileSection';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import ProfileSection from '@/components/ProfileSection';
 import ProfileForm from './ProfileForm';
 import LinksForm from './LinksForm';
 import { useToast } from '@/components/ui/use-toast';
@@ -89,6 +89,8 @@ const MainContent = (props: MainContentProps) => {
     form.setValue('avatar', url, { shouldDirty: true });
   };
 
+  const { isSubmitting, isDirty } = form.formState;
+
   const onSubmit = async (data: FormValues) => {
     const { urls, ...profile } = data;
     const orderedUrls = urls?.map((item, index) => ({ ...item, order: index }));
@@ -102,7 +104,13 @@ const MainContent = (props: MainContentProps) => {
       method: 'PUT',
       body: JSON.stringify(requestBody),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error();
+        } else {
+          return res.json();
+        }
+      })
       .then(() => {
         toast({
           description: 'Your changes have been successfully saved!',
@@ -136,6 +144,7 @@ const MainContent = (props: MainContentProps) => {
             form={form}
             avatar={avatar}
             setAvatarValue={setAvatarValue}
+            isSubmitting={isSubmitting}
           />
           <LinksForm
             appendField={appendField}
@@ -143,11 +152,12 @@ const MainContent = (props: MainContentProps) => {
             replace={replace}
             fields={links}
             form={form}
+            isSubmitting={isSubmitting}
           />
           <Button
             type="submit"
             className="self-end"
-            disabled={form.formState.isSubmitting || !form.formState.isDirty}
+            disabled={isSubmitting || !isDirty}
           >
             Save
           </Button>

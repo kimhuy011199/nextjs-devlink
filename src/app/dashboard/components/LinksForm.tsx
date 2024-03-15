@@ -28,12 +28,14 @@ interface LinksFormProps {
   replace: (items: any[]) => void;
   fields: any[];
   form: any;
+  isSubmitting: boolean;
 }
 
 const LIMITED_LINKS = 7;
 
 const LinksForm = (props: LinksFormProps) => {
-  const { appendField, removeField, replace, fields, form } = props;
+  const { appendField, removeField, replace, fields, form, isSubmitting } =
+    props;
   const [isMounted, setIsMounted] = useState(false);
 
   const handleOnDragEnd = (result: any) => {
@@ -63,7 +65,7 @@ const LinksForm = (props: LinksFormProps) => {
             the world!"
     >
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="links">
+        <Droppable droppableId="links" isDropDisabled={isSubmitting}>
           {(provided) => (
             <ul
               className="flex flex-col"
@@ -89,6 +91,7 @@ const LinksForm = (props: LinksFormProps) => {
                           type="button"
                           className="h-0 p-0 font-normal text-xs text-gray-500"
                           onClick={() => removeField(index, field.id)}
+                          disabled={isSubmitting}
                         >
                           Remove
                         </Button>
@@ -102,6 +105,7 @@ const LinksForm = (props: LinksFormProps) => {
                             <Select
                               onValueChange={field.onChange}
                               defaultValue={field.value}
+                              disabled={isSubmitting}
                             >
                               <FormControl>
                                 <SelectTrigger>
@@ -115,6 +119,7 @@ const LinksForm = (props: LinksFormProps) => {
                                     <SelectItem
                                       key={item.id}
                                       value={item.value}
+                                      disabled={isSubmitting}
                                     >
                                       <div className="flex items-center gap-3">
                                         <Icon size={16} strokeWidth={2} />
@@ -142,7 +147,11 @@ const LinksForm = (props: LinksFormProps) => {
                                   strokeWidth={2.5}
                                   className="absolute bottom-3 left-3.5"
                                 />
-                                <Input {...field} className="m-0 pl-10" />
+                                <Input
+                                  disabled={isSubmitting}
+                                  {...field}
+                                  className="m-0 pl-10"
+                                />
                               </div>
                             </FormControl>
                             <FormMessage />
@@ -163,7 +172,7 @@ const LinksForm = (props: LinksFormProps) => {
         type="button"
         className="my-4 flex w-full"
         onClick={appendField}
-        disabled={fields?.length > LIMITED_LINKS}
+        disabled={fields?.length > LIMITED_LINKS || isSubmitting}
       >
         <Plus size={14} strokeWidth={3} />
         <span className="pl-1">Add new link</span>

@@ -29,8 +29,7 @@ export default function Dashboard() {
         setProfileData(data);
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         toast({
           description: 'Something went wrong. Please try again!',
           variant: 'destructive',
